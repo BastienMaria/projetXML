@@ -41,7 +41,7 @@ public class MyQuery {
 
     public String getCoordonnees() throws IOException {
         String xmlResult = "";
-        String input = "for $hotel in doc('data/entries_hotels.xml')/entries/entry return <Hotel> {($hotel /name_fr)} {$hotel /longitude} {$hotel /latitude} </Hotel>";
+        String input = "for $hotel in doc(\'data/entries_hotels.xml\')/entries/entry return <Hotel> {($hotel /name_fr)} {$hotel /longitude} {$hotel /latitude} </Hotel>";
 
         BaseXClient.Query query = session.query(input);
 

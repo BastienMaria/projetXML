@@ -1,6 +1,5 @@
 package servlet;
 
-import java.io.OutputStream;
 import java.io.StringReader;
 import javax.servlet.*;
 import javax.servlet.annotation.WebServlet;
@@ -49,11 +48,6 @@ public class XSLTServlet extends HttpServlet {
         try {
 
             MyQuery mq = new MyQuery();
-
-
-            // version 2 (faster): perform command and pass on result to output stream
-            final OutputStream out = System.out;
-
 
             // Get concrete implementation
             TransformerFactory tFactory = TransformerFactory.newInstance();

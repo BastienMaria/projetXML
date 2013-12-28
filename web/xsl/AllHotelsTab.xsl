@@ -32,9 +32,9 @@
                     <thead>
                         <tr bgcolor="#F0F0F0">
                             <td>Nom hotel</td>
-                            <td>ID</td>
                             <td>Phone</td>
-                            <td>Label</td>
+                            <td>Address</td>
+                            <td>Note</td>
                         </tr>
                     </thead>
                     <tbody>
@@ -44,13 +44,13 @@
                                     <xsl:value-of select="name_fr"/>
                                 </td>
                                 <td>
-                                    <xsl:value-of select="ID"/>
-                                </td>
-                                <td>
                                     <xsl:value-of select="phone"/>
                                 </td>
                                 <td>
-                                    <xsl:value-of select="labels/label"/>
+                                    <xsl:value-of select="address/address_line1"/>
+                                </td>
+                                <td>
+                                    <xsl:value-of select="standings_levels/standings_level"/>
                                 </td>
                             </tr>
                         </xsl:for-each>
