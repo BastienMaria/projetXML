@@ -574,14 +574,6 @@
         </images>
     </Hotel>
     <Hotel>
-        <name_fr>HOTEL GENÈVE, LE</name_fr>
-        <images/>
-    </Hotel>
-    <Hotel>
-        <name_fr>HOTEL GENÈVE, LE</name_fr>
-        <images/>
-    </Hotel>
-    <Hotel>
         <name_fr>GOUNOD HOTEL NICE</name_fr>
         <longitude>7.26006</longitude>
         <latitude>43.6991</latitude>
@@ -1436,10 +1428,6 @@
             <image>http://www.nicetourisme.com/public/resources/directory/entries/photos/44/558_4d6d0388a2fe4.jpg</image>
             <image>http://www.nicetourisme.com/public/resources/directory/entries/photos/ae/559_4d6d039828dd9.jpg</image>
         </images>
-    </Hotel>
-    <Hotel>
-        <name_fr>RESTAURANT SPECIMEN</name_fr>
-        <images/>
     </Hotel>
     <Hotel>
         <name_fr>SPLENDID HOTEL ET SPA</name_fr>
