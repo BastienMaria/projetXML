@@ -15,6 +15,12 @@
                 });
             });
         </script>
+        <script>
+            $("#target").click(function() {
+                alert("Handler for .click() called.");
+            });
+        </script>
+
     </head>
     <body>
         <div class="navbar navbar-fixed-top navbar-inverse" role="navigation">

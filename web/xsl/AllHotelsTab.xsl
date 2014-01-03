@@ -22,6 +22,12 @@
                     $('#example').dataTable();
                     } );
                 </script>
+                <script>
+                    $( "#target" ).click(function() {
+                    alert( "Handler for .click() called." );
+                    });
+                </script>
+
                 <style type="text/css" title="currentStyle">
                     @import "js/DataTables/media/css/demo_page.css";
                     @import "js/DataTables/media/css/demo_table.css";
@@ -32,16 +38,19 @@
                     <thead>
                         <tr bgcolor="#F0F0F0">
                             <td>Nom hotel</td>
-                            <td>Phone</td>
-                            <td>Address</td>
+                            <td>Téléphone</td>
+                            <td>Adresse</td>
                             <td>Note</td>
+                            <td>Image</td>
                         </tr>
                     </thead>
                     <tbody>
                         <xsl:for-each select="entries/entry">
                             <tr>
                                 <td>
-                                    <xsl:value-of select="name_fr"/>
+                                    <div id="target">
+                                        <xsl:value-of select="name_fr"/>
+                                    </div>
                                 </td>
                                 <td>
                                     <xsl:value-of select="phone"/>
@@ -51,6 +60,11 @@
                                 </td>
                                 <td>
                                     <xsl:value-of select="standings_levels/standings_level"/>
+                                </td>
+                                <td>
+                                    <img>
+                                        <xsl:value-of select="images/image"/>
+                                    </img>
                                 </td>
                             </tr>
                         </xsl:for-each>
