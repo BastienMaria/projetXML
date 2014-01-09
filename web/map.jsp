@@ -39,7 +39,7 @@
                         xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
                     }
                     // on récupére tous les hotels qui ont long et lat et les photos s'il y a
-                    xmlhttp.open("GET", "hotels_nom_long_lat_img.xml", false);
+                    xmlhttp.open("GET", "hotels_nom_long_lat_img_lvl.xml", false);
                     xmlhttp.send();
 
                     xmlDoc = xmlhttp.responseXML;
@@ -58,10 +58,35 @@
 
                         var myLatLong = new google.maps.LatLng(Lat, Long);
                         var infow = new google.maps.InfoWindow();
+                        var stand = x[i].getElementsByTagName("standings_level")[0].childNodes[0].nodeValue;
+                        var iconBase = 'img/';
+                        switch (stand.charAt(0))
+                        {
+                            case "1":
+                                iconBase = iconBase + '1etoiles.png';
+                                console.log(iconBase);
+                                break;
+                            case "2":
+                                iconBase = iconBase + '2etoiles.png';
+                                console.log(iconBase);
+                                break;
+                            case "3":
+                                iconBase = iconBase + '3etoiles.png';
+                                break;
+                            case "4":
+                                iconBase = iconBase + '4etoiles.png';
+                                break;
+                            case "5":
+                                iconBase = iconBase + '5etoiles.png';
+                                break;
+                            default :
+                                iconBase = iconBase + '0etoiles.png';
+                        }
                         var marker = new google.maps.Marker({
                             position: myLatLong,
                             map: map,
-                            title: Name
+                            title: Name,
+                            icon: iconBase
                         });
 
                         var text_infobulle;
@@ -87,6 +112,8 @@
                         infowindow.setContent(texte);
                         // affichage InfoWindow
                         infowindow.open(this.getMap(), this);
+                        var center = map.getCenter();
+                        infowindow.setPosition(center);
                     });
                 }
             </script>
