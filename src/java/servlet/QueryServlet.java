@@ -37,7 +37,7 @@ public class QueryServlet extends HttpServlet {
             MyQuery mq = new MyQuery();
             //   String result = mq.execute("coucou");
 
-            response.setContentType("text/html");
+            response.setContentType("text/xml");
 
             PrintWriter out = response.getWriter();
 
