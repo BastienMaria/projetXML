@@ -9,6 +9,8 @@
 <html>
     <head>
         <meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
+        <title>Map Page</title>
+        <%@ include file="include/head.jsp" %>
         <style type="text/css">
             html { height: 100% }
             body { height: 100%; margin: 0; padding: 0 }
@@ -18,11 +20,10 @@
             <script type="text/javascript"
                     src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDDoQlexj60hARI0Y07hWkrG4pDE5dwUjY&sensor=false">
             </script>
-
-            <script src="https://code.jquery.com/jquery-1.10.2.min.js">
+            <!--<script src="https://code.jquery.com/jquery-1.10.2.min.js">
             </script>
 
-            <!--<script type="text/javascript" src="js/MapLoading.js">
+            <script type="text/javascript" src="js/MapLoading.js">
             </script>
             -->
 
@@ -39,7 +40,8 @@
                         xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
                     }
                     // on récupére tous les hotels qui ont long et lat et les photos s'il y a
-                    xmlhttp.open("GET", "hotels_nom_long_lat_img_lvl.xml", false);
+
+                    xmlhttp.open("GET", "http://localhost:8080/projetXML/query", false);
                     xmlhttp.send();
 
                     xmlDoc = xmlhttp.responseXML;
@@ -54,6 +56,7 @@
                             var Lat = x[i].getElementsByTagName("latitude")[0].childNodes[0].nodeValue;
                             var Long = x[i].getElementsByTagName("longitude")[0].childNodes[0].nodeValue;
                             var Name = x[i].getElementsByTagName("name_fr")[0].childNodes[0].nodeValue;
+                            var Id = x[i].getElementsByTagName("ID")[0].childNodes[0].nodeValue;
                         }
 
                         var myLatLong = new google.maps.LatLng(Lat, Long);
@@ -64,11 +67,9 @@
                         {
                             case "1":
                                 iconBase = iconBase + '1etoiles.png';
-                                console.log(iconBase);
                                 break;
                             case "2":
                                 iconBase = iconBase + '2etoiles.png';
-                                console.log(iconBase);
                                 break;
                             case "3":
                                 iconBase = iconBase + '3etoiles.png';
@@ -92,29 +93,53 @@
                         var text_infobulle;
                         x[i].getElementsByTagName("images").innerHTML = x[i].getElementsByTagName("images")[0].childNodes.length ? x[i].getElementsByTagName("images")[0].childNodes[1].childNodes[0].nodeValue : "photo non dispo";
                         if (x[i].getElementsByTagName("images").innerHTML === "photo non dispo") {
-                            text_infobulle = "Photos non disponible"
+                            text_infobulle = "Photos non disponible";
                         } else {
-                            text_infobulle = "<img src=\"" + x[i].getElementsByTagName("images").innerHTML + "\" alt=\"test\">";
+                            text_infobulle = "<div><img src=\"" + x[i].getElementsByTagName("images").innerHTML + "\" alt=\"test\">";
                         }
-                        setEventMarker(marker, infow, text_infobulle);
+                        setEventMarker(marker, infow, Id);
                     }
                 }
 
-                function setEventMarker(marker, infowindow, texte) {
+                function setEventMarker(marker, infowindow, val) {
                     google.maps.event.addListener(marker, 'click', function() {
                         // évite la superposition des infobulles
-                        if (prev_infobulle)
-                        {
-                            prev_infobulle.close();
-                        }
-                        prev_infobulle = infowindow;
+                        //if (prev_infobulle)
+                        // {
+                        //    prev_infobulle.close();
+                        // }
+                        // prev_infobulle = infowindow;
+
                         // affectation du texte
-                        infowindow.setContent(texte);
+                        //infowindow.setContent(texte);
                         // affichage InfoWindow
-                        infowindow.open(this.getMap(), this);
-                        var center = map.getCenter();
-                        infowindow.setPosition(center);
+                        //alert(texte);
+                        //infowindow.open(this.getMap(), this);
+                        setUpInfos(val);
                     });
+                }
+            </script>
+            
+            <script type="text/javascript">
+                function setUpInfos(val){
+                    if (window.XMLHttpRequest)
+                    {// pour IE7+, Firefox, Chrome, Opera, Safari
+                        xmlhttpi = new XMLHttpRequest();
+                    }
+                    else
+                    {// pour IE6, IE5
+                        xmlhttpi = new ActiveXObject("Microsoft.XMLHTTP");
+                    }
+                    // on récupére tous les hotels qui ont long et lat et les photos s'il y a
+                    
+                    var urlComplet = "http://localhost:8080/projetXML/infos?hid=" + val;
+                    xmlhttpi.open("GET", urlComplet, false);
+                    xmlhttpi.send();
+                    xmlInfos = xmlhttpi.responseXML;
+                    
+                    var tel = xmlInfos.getElementsByTagName("phone")[0].childNodes[0].nodeValue;
+                    console.log("Telephone " + tel);
+                    
                 }
             </script>
 
@@ -141,6 +166,30 @@
             </script>
         </head>
         <body>
-            <div id="map-canvas"></div>
+            <div class="navbar navbar-fixed-top navbar-inverse" role="navigation">
+            <div class="container">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a class="navbar-brand" href="#">XML Project</a>
+                </div>
+                <div class="collapse navbar-collapse">
+                    <ul class="nav navbar-nav">
+                        <li><a href="index.jsp">Accueil</a></li>
+                        <li><a href="allHotels.jsp">Tous les hotels</a></li>
+                        <li class="active" ><a href="map.jsp">Map</a></li>
+                        <li><a href="graph.jsp">Graphiques</a></li>
+                    </ul>
+                </div><!-- /.nav-collapse -->
+            </div><!-- /.container -->
+        </div><!-- /.navbar -->
+        <div class="row">
+            <div style="width:50%" class="col-md-6" id="map-canvas"></div>
+            <div class="col-md-6">droite</div>
+        </div>
     </body>
 </html>

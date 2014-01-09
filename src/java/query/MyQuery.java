@@ -31,7 +31,6 @@ public class MyQuery {
             xmlResult += query.next();
         }
 
-
         // close query instance
         query.close();
 
@@ -43,7 +42,7 @@ public class MyQuery {
         String xmlResult = "";
 
         String input = "<Hotels>{ for $hotel in doc('data/entries_hotels.xml') /entries/entry where not(empty($hotel/longitude)) and  not(empty($hotel/latitude)) and  not(empty($hotel/images/image))"
-                + "return <Hotel> {($hotel /name_fr)}  {$hotel /longitude} {$hotel /latitude} {($hotel/images)} {($hotel /standings_levels/standings_level)}</Hotel>} </Hotels>";
+                + "return <Hotel> {($hotel /ID)} {($hotel /name_fr)}  {$hotel /longitude} {$hotel /latitude} {($hotel/images)} {($hotel /standings_levels/standings_level)}</Hotel>} </Hotels>";
 
         BaseXClient.Query query = session.query(input);
 
@@ -52,6 +51,26 @@ public class MyQuery {
             xmlResult += query.next();
         }
 
+        // close query instance
+        query.close();
+
+        return xmlResult;
+    }
+
+    public String getInfos(String parameter) throws IOException {
+
+        String xmlResult = "";
+
+        String input = "<Hotels>{ for $hotel in doc('data/entries_hotels.xml') /entries/entry\n"
+                + "where $hotel /ID = '" + parameter + "'\n"
+                + "return <Hotel> {($hotel /phone)}  {$hotel /email} {$hotel /website} </Hotel>} </Hotels>";
+
+        BaseXClient.Query query = session.query(input);
+
+        // loop through all results
+        while (query.more()) {
+            xmlResult += query.next();
+        }
 
         // close query instance
         query.close();
@@ -68,7 +87,6 @@ public class MyQuery {
         while (query.more()) {
             xmlResult += query.next();
         }
-
 
         // close query instance
         query.close();
