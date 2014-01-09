@@ -39,9 +39,28 @@ public class MyQuery {
 
     }
 
-    public String getCoordonnees() throws IOException {
+    public String getMarkers() throws IOException {
         String xmlResult = "";
-        String input = "for $hotel in doc(\'data/entries_hotels.xml\')/entries/entry return <Hotel> {($hotel /name_fr)} {$hotel /longitude} {$hotel /latitude} </Hotel>";
+
+        String input = "<Hotels>{ for $hotel in doc('data/entries_hotels.xml') /entries/entry where not(empty($hotel/longitude)) and  not(empty($hotel/latitude)) and  not(empty($hotel/images/image))"
+                + "return <Hotel> {($hotel /name_fr)}  {$hotel /longitude} {$hotel /latitude} {($hotel/images)} {($hotel /standings_levels/standings_level)}</Hotel>} </Hotels>";
+
+        BaseXClient.Query query = session.query(input);
+
+        // loop through all results
+        while (query.more()) {
+            xmlResult += query.next();
+        }
+
+
+        // close query instance
+        query.close();
+
+        return xmlResult;
+    }
+
+    public String execute(String input) throws IOException {
+        String xmlResult = "";
 
         BaseXClient.Query query = session.query(input);
 

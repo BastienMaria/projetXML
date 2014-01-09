@@ -1,25 +1,24 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package servlet;
 
-import java.io.IOException;
 import java.io.PrintWriter;
-import javax.servlet.ServletException;
-import javax.servlet.annotation.WebInitParam;
+import java.io.StringReader;
+import javax.servlet.*;
 import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.*;
+import query.MyQuery;
 
-/**
- *
- * @author Bastien
- */
-@WebServlet(name = "QueryServlet", urlPatterns = {"/QueryServlet"}, initParams = {
-    @WebInitParam(name = "query", value = "test")})
+@WebServlet(name = "QueryServlet", urlPatterns = {"/query"})
 public class QueryServlet extends HttpServlet {
+
+    public void init(ServletConfig config) throws ServletException {
+        super.init(config);
+        ServletContext webApp = this.getServletContext();
+
+        try {
+        } catch (Exception ex) {
+            throw new ServletException(ex);
+        }
+    }
 
     /**
      * Processes requests for both HTTP
@@ -28,42 +27,55 @@ public class QueryServlet extends HttpServlet {
      *
      * @param request servlet request
      * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
-        PrintWriter out = response.getWriter();
+            throws ServletException {
+        ServletContext webApp = this.getServletContext();
+
         try {
-            /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet QueryServlet</title>");
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet QueryServlet at " + request.getContextPath() + "</h1>");
-            out.println("</body>");
-            out.println("</html>");
-        } finally {
+
+            MyQuery mq = new MyQuery();
+            //   String result = mq.execute("coucou");
+
+            response.setContentType("text/html");
+
+            PrintWriter out = response.getWriter();
+
+            StringReader s = new StringReader(mq.getMarkers());
+            // StringReader s = new StringReader(result);
+
+            StringBuilder builder = new StringBuilder();
+            int charsRead = -1;
+            char[] chars = new char[100];
+            do {
+                charsRead = s.read(chars, 0, chars.length);
+                //if we have valid chars, append them to end of string.
+                if (charsRead > 0) {
+                    builder.append(chars, 0, charsRead);
+                }
+            } while (charsRead > 0);
+            String stringReadFromReader = builder.toString();
+
+
+            out.println(stringReadFromReader);
+
             out.close();
+            out.flush();
+
+        } catch (Exception ex) {
+            throw new ServletException(ex);
         }
     }
 
-    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP
      * <code>GET</code> method.
      *
      * @param request servlet request
      * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
      */
-    @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+            throws ServletException, java.io.IOException {
         processRequest(request, response);
     }
 
@@ -73,22 +85,16 @@ public class QueryServlet extends HttpServlet {
      *
      * @param request servlet request
      * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
      */
-    @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+            throws ServletException, java.io.IOException {
         processRequest(request, response);
     }
 
     /**
      * Returns a short description of the servlet.
-     *
-     * @return a String containing servlet description
      */
-    @Override
     public String getServletInfo() {
-        return "Short description";
-    }// </editor-fold>
+        return "XSLT";
+    }
 }
