@@ -63,7 +63,7 @@ public class MyQuery {
 
         String input = "<Hotels>{ for $hotel in doc('data/entries_hotels.xml') /entries/entry\n"
                 + "where $hotel /ID = '" + parameter + "'\n"
-                + "return <Hotel> {($hotel /phone)}  {$hotel /email} {$hotel /website} </Hotel>} </Hotels>";
+                + "return <Hotel> {($hotel /name_fr)} {($hotel /phone)}  {$hotel /email} {$hotel /website} {$hotel /images/image} {$hotel /standings_levels/standings_level} </Hotel>} </Hotels>";
 
         BaseXClient.Query query = session.query(input);
 

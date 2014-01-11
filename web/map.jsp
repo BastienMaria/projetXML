@@ -11,11 +11,14 @@
         <meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
         <title>Map Page</title>
         <%@ include file="include/head.jsp" %>
+        <script src="bootstrap/js/bootstrap.js"></script>
+        <script src="bootstrap/js/bootstrap.min.js"></script>
         <style type="text/css">
             html { height: 100% }
             body { height: 100%; margin: 0; padding: 0 }
-            #map-canvas { width: 500px;
-                          height: 400px; }
+            #map-canvas { margin-top: 50px;
+                          width: 400px;
+                          height: 580px; }
             </style>
             <script type="text/javascript"
                     src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDDoQlexj60hARI0Y07hWkrG4pDE5dwUjY&sensor=false">
@@ -60,7 +63,6 @@
                         }
 
                         var myLatLong = new google.maps.LatLng(Lat, Long);
-                        var infow = new google.maps.InfoWindow();
                         var stand = x[i].getElementsByTagName("standings_level")[0].childNodes[0].nodeValue;
                         var iconBase = 'img/';
                         switch (stand.charAt(0))
@@ -90,38 +92,29 @@
                             icon: iconBase
                         });
 
-                        var text_infobulle;
-                        x[i].getElementsByTagName("images").innerHTML = x[i].getElementsByTagName("images")[0].childNodes.length ? x[i].getElementsByTagName("images")[0].childNodes[1].childNodes[0].nodeValue : "photo non dispo";
-                        if (x[i].getElementsByTagName("images").innerHTML === "photo non dispo") {
-                            text_infobulle = "Photos non disponible";
-                        } else {
-                            text_infobulle = "<div><img src=\"" + x[i].getElementsByTagName("images").innerHTML + "\" alt=\"test\">";
-                        }
-                        setEventMarker(marker, infow, Id);
+                        setEventMarker(marker, Id);
                     }
                 }
 
-                function setEventMarker(marker, infowindow, val) {
+                function setEventMarker(marker, Id) {
                     google.maps.event.addListener(marker, 'click', function() {
-                        // évite la superposition des infobulles
-                        //if (prev_infobulle)
-                        // {
-                        //    prev_infobulle.close();
-                        // }
-                        // prev_infobulle = infowindow;
-
-                        // affectation du texte
-                        //infowindow.setContent(texte);
-                        // affichage InfoWindow
-                        //alert(texte);
-                        //infowindow.open(this.getMap(), this);
-                        setUpInfos(val);
+                        map.setCenter(marker.getPosition());
+                        var infos = getUpInfos(Id);
+                        var varBody = infos[0];
+                        var varTitle = infos[1];
+                        
+                        $('#infosTitle').empty();
+                        $('#infosTitle').append(varTitle);
+                        $('#infosBody').empty();
+                        $('#infosBody').append(varBody);
+                        
+                        $('#imageModal').modal('show');
                     });
                 }
             </script>
-            
+
             <script type="text/javascript">
-                function setUpInfos(val){
+                function getUpInfos(val) {
                     if (window.XMLHttpRequest)
                     {// pour IE7+, Firefox, Chrome, Opera, Safari
                         xmlhttpi = new XMLHttpRequest();
@@ -131,15 +124,64 @@
                         xmlhttpi = new ActiveXObject("Microsoft.XMLHTTP");
                     }
                     // on récupére tous les hotels qui ont long et lat et les photos s'il y a
-                    
+
                     var urlComplet = "http://localhost:8080/projetXML/infos?hid=" + val;
                     xmlhttpi.open("GET", urlComplet, false);
                     xmlhttpi.send();
                     xmlInfos = xmlhttpi.responseXML;
+                    var tel, email, site, img, lvl, name, nametitle, lvlnb, siteUrl;
                     
-                    var tel = xmlInfos.getElementsByTagName("phone")[0].childNodes[0].nodeValue;
-                    console.log("Telephone " + tel);
+                    lvl = xmlInfos.getElementsByTagName("standings_level")[0].childNodes[0].nodeValue;
+                    switch (lvl.charAt(0))
+                        {
+                            case "1":
+                                lvlnb = " *";
+                                break;
+                            case "2":
+                                lvlnb = " **";
+                                break;
+                            case "3":
+                                lvlnb = " ***";
+                                break;
+                            case "4":
+                                lvlnb = " ****";
+                                break;
+                            case "5":
+                                lvlnb = " *****";
+                                break;
+                            default :
+                                lvlnb = "";
+                        }
+                    name = xmlInfos.getElementsByTagName("name_fr")[0].childNodes[0].nodeValue;
+                    nametitle = xmlInfos.getElementsByTagName("name_fr")[0].childNodes[0].nodeValue + lvlnb;
+                    if(xmlInfos.getElementsByTagName("email")[0].firstChild === null){
+                        email = "non renseigné";
+                    } else {
+                        email = xmlInfos.getElementsByTagName("email")[0].childNodes[0].nodeValue;
+                    }
+                    if(xmlInfos.getElementsByTagName("phone")[0].firstChild === null){
+                        tel = "non renseigné";
+                    } else {
+                        tel = xmlInfos.getElementsByTagName("phone")[0].childNodes[0].nodeValue;
+                    }
+                    if(xmlInfos.getElementsByTagName("website")[0].firstChild === null){
+                        site = "non renseigné (= recherche google ici !)";
+                        siteUrl = "https://www.google.com/#q=" + name + " Nice";
+                    } else {
+                        site = xmlInfos.getElementsByTagName("website")[0].childNodes[0].nodeValue;
+                        siteUrl = site;
+                    }
+                    if(xmlInfos.getElementsByTagName("image")[0].firstChild === null){
+                        img = "Photo non disponible";
+                    } else {
+                        img = xmlInfos.getElementsByTagName("image")[0].childNodes[0].nodeValue;
+                    }
                     
+                    var retHtmlTitle = nametitle;
+                    var retHtmlBody = "<p>Téléphone : " + tel + "</p><p>Email : " + email + "</p><p>Site : <a href=\"" + siteUrl + "\">" + site + "</a></p>\n\
+                                        <p><img src=\"" + img +"\" width=\"540\" height=\"auto\"  />";
+                    
+                    return[retHtmlBody, retHtmlTitle];
                 }
             </script>
 
@@ -188,8 +230,23 @@
             </div><!-- /.container -->
         </div><!-- /.navbar -->
         <div class="row">
-            <div style="width:50%" class="col-md-6" id="map-canvas"></div>
-            <div class="col-md-6">droite</div>
+            <div style="width:100%" id="map-canvas"></div>
         </div>
+        <div class="modal fade" id="imageModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                        <h4 class="modal-title" id="infosTitle"></h4>
+                    </div>
+                    <div class="modal-body">
+                        <div id="infosBody"></div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Fermer</button>
+                    </div>
+                </div><!-- /.modal-content -->
+            </div><!-- /.modal-dialog -->
+        </div><!-- /.modal -->
     </body>
 </html>
