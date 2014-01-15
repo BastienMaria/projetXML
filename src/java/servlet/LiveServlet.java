@@ -21,13 +21,12 @@ import query.MyQuery;
  *
  * @author Rudy
  */
-@WebServlet(name = "InfoServlet", urlPatterns = {"/infos"})
-public class InfoServlet extends HttpServlet {
+@WebServlet(name = "LiveServlet", urlPatterns = {"/live"})
+public class LiveServlet extends HttpServlet {
 
     @Override
     public void init(ServletConfig config) throws ServletException {
-        super.init(); //To change body of generated methods, choose Tools | Templates.
-        super.init(config);
+        super.init(config); //To change body of generated methods, choose Tools | Templates.
         ServletContext webApp = this.getServletContext();
 
         try {
@@ -50,14 +49,15 @@ public class InfoServlet extends HttpServlet {
         ServletContext webApp = this.getServletContext();
 
         try {
-
             MyQuery mq = new MyQuery();
             //   String result = mq.execute("coucou");
 
             response.setContentType("text/xml");
 
             PrintWriter out = response.getWriter();
-            StringReader s = new StringReader(mq.getInfos(request.getParameter("hid")));
+            System.out.print(request.getParameter("amen"));
+            StringReader s = new StringReader(mq.getInfos(request.getParameter("amen")));
+            // StringReader s = new StringReader(result);
 
             StringBuilder builder = new StringBuilder();
             int charsRead = -1;

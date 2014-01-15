@@ -1,32 +1,16 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package servlet;
 
-import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.StringReader;
-import javax.servlet.ServletConfig;
-import javax.servlet.ServletContext;
-import javax.servlet.ServletException;
+import javax.servlet.*;
 import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.*;
 import query.MyQuery;
 
-/**
- *
- * @author Rudy
- */
-@WebServlet(name = "InfoServlet", urlPatterns = {"/infos"})
-public class InfoServlet extends HttpServlet {
+@WebServlet(name = "TabServlet", urlPatterns = {"/tab"})
+public class TabServlet extends HttpServlet {
 
-    @Override
     public void init(ServletConfig config) throws ServletException {
-        super.init(); //To change body of generated methods, choose Tools | Templates.
         super.init(config);
         ServletContext webApp = this.getServletContext();
 
@@ -37,27 +21,29 @@ public class InfoServlet extends HttpServlet {
     }
 
     /**
-     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
-     * methods.
+     * Processes requests for both HTTP
+     * <code>GET</code> and
+     * <code>POST</code> methods.
      *
      * @param request servlet request
      * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+            throws ServletException {
         ServletContext webApp = this.getServletContext();
 
         try {
 
             MyQuery mq = new MyQuery();
             //   String result = mq.execute("coucou");
+            String param = request.getParameter("param");
 
-            response.setContentType("text/xml");
+            response.setContentType("text/html");
 
             PrintWriter out = response.getWriter();
-            StringReader s = new StringReader(mq.getInfos(request.getParameter("hid")));
+
+            StringReader s = new StringReader(mq.chooseTabMethod(param));
+            // StringReader s = new StringReader(result);
 
             StringBuilder builder = new StringBuilder();
             int charsRead = -1;
@@ -71,6 +57,7 @@ public class InfoServlet extends HttpServlet {
             } while (charsRead > 0);
             String stringReadFromReader = builder.toString();
 
+
             out.println(stringReadFromReader);
 
             out.close();
@@ -81,43 +68,34 @@ public class InfoServlet extends HttpServlet {
         }
     }
 
-    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
-     * Handles the HTTP <code>GET</code> method.
+     * Handles the HTTP
+     * <code>GET</code> method.
      *
      * @param request servlet request
      * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
      */
-    @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+            throws ServletException, java.io.IOException {
         processRequest(request, response);
     }
 
     /**
-     * Handles the HTTP <code>POST</code> method.
+     * Handles the HTTP
+     * <code>POST</code> method.
      *
      * @param request servlet request
      * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
      */
-    @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+            throws ServletException, java.io.IOException {
         processRequest(request, response);
     }
 
     /**
      * Returns a short description of the servlet.
-     *
-     * @return a String containing servlet description
      */
-    @Override
     public String getServletInfo() {
-        return "Short description";
-    }// </editor-fold>
-
+        return "XSLT";
+    }
 }
