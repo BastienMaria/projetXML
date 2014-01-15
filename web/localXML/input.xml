@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="windows-1252"?>
+<?xml-stylesheet type="text/xsl" href="../xsl/diag.xsl"?>
+<input min-value="500" step-value="100" step-number="5">
+    <val v="784">Jan-07</val>
+    <val v="765">Feb-07</val>
+    <val v="910">Mar-07</val>
+    <val v="734">Apr-07</val>
+    <val v="907">May-07</val>
+    <val v="626">Jun-07</val>
+    <val v="865">Jul-07</val>
+    <val v="682">Aug-07</val>
+    <val v="790">Sep-07</val>
+    <val v="725">Oct-07</val>
+    <val v="649">Nov-07</val>
+    <val v="577">Dec-07</val>
+</input>

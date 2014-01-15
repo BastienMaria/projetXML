@@ -1,0 +1,21 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<data>
+    <x>Visa</x>
+    <x>Espèces</x>
+    <x>Virements</x>
+    <x>Master Card</x>
+    <x>American express</x>
+    <x>Chèques</x>
+    <x>Chèques vacances</x>
+    <x>Chèques voyage</x>
+    <x>Carte de crédit</x>
+    <y>95</y>
+    <y>92</y>
+    <y>72</y>
+    <y>94</y>
+    <y>79</y>
+    <y>41</y>
+    <y>55</y>
+    <y>9</y>
+    <y>93</y>
+</data>

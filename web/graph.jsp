@@ -3,19 +3,22 @@
     <head>
         <%@ include file="include/head.jsp" %>
         <meta charset="utf-8">
-        <title></title>
-        <link rel="stylesheet" href="css/demo.css"media="screen">
-        <link rel="stylesheet" href="css/demo-print.css"media="print">
-        <script src="js/raphael.js"></script>
-        <script src="js/jquery.js"></script>
-        <script src="js/pie.js"></script>
-        <style media="screen">
-            #holder {
-                margin: -350px 0 0 -350px;
-                width: 700px;
-                height: 700px;
-            }
-        </style>
+        <link rel="stylesheet" href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css">
+        <script src="http://code.jquery.com/jquery-1.9.1.js"></script>
+        <script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
+        <script type="text/javascript">
+            $(document).ready(function() {
+                var svg;
+                $.get("http://localhost:8080/projetXML/tab?param=tabChambres", function(data) {
+                    svg = data;
+                    $(".errorMssg").text("Data Loaded: " + data);
+                    $("#tabChambres").append(svg);
+                });
+                $(function() {
+                    $("#tabs").tabs();
+                });
+            });
+        </script>
     </head>
     <body>
         <div class="navbar navbar-fixed-top navbar-inverse" role="navigation">
@@ -39,51 +42,21 @@
                 </div><!-- /.nav-collapse -->
             </div><!-- /.container -->
         </div><!-- /.navbar -->
-        <table>
-            <tbody>
-                <tr>
-                    <th scope="row">Ruby</th>
-                    <td>40%</td>
-                </tr>
-                <tr>
-                    <th scope="row">JavaScript</th>
-                    <td>26%</td>
-                </tr>
-                <tr>
-                    <th scope="row">Shell</th>
-                    <td>5%</td>
-                </tr>
-                <tr>
-                    <th scope="row">Python</th>
-                    <td>5%</td>
-                </tr>
-                <tr>
-                    <th scope="row">PHP</th>
-                    <td>4%</td>
-                </tr>
-                <tr>
-                    <th scope="row">C</th>
-                    <td>4%</td>
-                </tr>
-                <tr>
-                    <th scope="row">Perl</th>
-                    <td>3%</td>
-                </tr>
-                <tr>
-                    <th scope="row">C++</th>
-                    <td>2%</td>
-                </tr>
-                <tr>
-                    <th scope="row">Java</th>
-                    <td>2%</td>
-                </tr>
-                <tr>
-                    <th scope="row">Objective-C</th>
-                    <td>2%</td>
-                </tr>
-            </tbody>
-        </table>
-        <div id="holder"></div>
-
+        <div class="container">
+            <div id="tabs">
+                <ul>
+                    <li><a href="#tabs-1">Standing</a></li>
+                    <li><a href="#tabs-2">Payments</a></li>
+                </ul>
+                <div id="tabs-1">
+                    <div id="tabChambres"></div>
+                    <object type="image/svg+xml" data="http://localhost:8080/projetXML/pieChart"></object>
+                    <a href="http://localhost:8080/projetXML/pdf1"><button type="button" class="btn btn-primary btn-lg">Générer PDF</button></a>
+                </div>
+                <div id="tabs-2">
+                    <object type="image/svg+xml" data="http://localhost:8080/projetXML/bar"></object>
+                    <a href="http://localhost:8080/projetXML/pdf2"><button type="button" class="btn btn-primary btn-lg">Générer PDF</button></a>                </div>
+            </div>
+        </div>
     </body>
 </html>
