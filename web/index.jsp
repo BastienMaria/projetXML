@@ -28,10 +28,7 @@
             </div><!-- /.container -->
         </div><!-- /.navbar -->
         <div class="container">
-            <!--            <div class="jumbotron">
-                            <h1>Hello, world!</h1>
-                            <p>This is an example to show the potential of an offcanvas layout pattern in Bootstrap. Try some responsive-range viewport sizes to see it in action.</p>
-                        </div>-->
+
             <div class="page-header">
                 <h1>Recherchez un hotel</h1>
                 <p class="lead">Sélectionnez vos critères parmis les choix suivants puis validez</p>
