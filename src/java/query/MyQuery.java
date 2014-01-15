@@ -57,6 +57,51 @@ public class MyQuery {
         return xmlResult;
     }
 
+    public String getLive(String lang, String pay, String serv) throws IOException {
+        String xmlResult = "";
+
+//        String input = "<Hotels>{ for $hotel in doc('data/entries_hotels.xml') /entries/entry\n"
+//                + "where $hotel/languages/language = \"" + lang + "\""
+//                + "and $hotel/payments/payment = \"" + pay + "\""
+//                + "and $hotel/amenities/amenity = \"" + serv + "\""
+//                + "return <Hotel> Nom : {string($hotel /name_fr)} /br </Hotel>} </Hotels>";
+        String input = "let $hotels := doc('data/entries_hotels.xml') /entries\n"
+                + "return\n"
+                + "    <table class=\"table table-hover\">\n"
+                + "    <thead>\n"
+                + "      <tr>\n"
+                + "          <th>Nom</th> \n"
+                + "          <th>Téléphone</th>\n"
+                + "          <th>Prix</th>\n"
+                + "      </tr>\n"
+                + "    </thead>\n"
+                + "    <tbody>{\n"
+                + "         for $hotel in $hotels/entry\n"
+                + "         where $hotel/languages/language = \"" + lang + "\"\n"
+                + "         and $hotel/payments/payment = \"" + pay + "\"\n"
+                + "         and $hotel/amenities/amenity = \"" + serv + "\"\n"
+                + "         return            \n"
+                + "         <tr>       \n"
+                + "           <td>{$hotel/name_fr}</td>\n"
+                + "           <td>{$hotel/phone}</td>\n"
+                + "           <td>{$hotel/tariffs/tariff/min}</td>\n"
+                + "         </tr>\n"
+                + "       }</tbody>\n"
+                + "     </table>\n";
+
+        BaseXClient.Query query = session.query(input);
+
+        // loop through all results
+        while (query.more()) {
+            xmlResult += query.next();
+        }
+
+        // close query instance
+        query.close();
+
+        return xmlResult;
+    }
+
     public String getInfos(String parameter) throws IOException {
 
         String xmlResult = "";
