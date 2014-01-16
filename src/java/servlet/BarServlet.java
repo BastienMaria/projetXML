@@ -18,7 +18,7 @@ public class BarServlet extends HttpServlet {
     public final static String /**
              * The path to the stylesheet.
              */
-            XSLT_PATH = "SvgCharts/examples/barchartExample1.xsl";
+            XSLT_PATH = "SvgCharts/examples/bar.xsl";
 
     /**
      * Initializes the servlet.

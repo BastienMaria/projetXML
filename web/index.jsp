@@ -15,7 +15,7 @@
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
                     </button>
-                    <a class="navbar-brand" href="#">XML Project</a>
+                    <a class="navbar-brand">XML Project</a>
                 </div>
                 <div class="collapse navbar-collapse">
                     <ul class="nav navbar-nav">
@@ -37,6 +37,7 @@
             <form role="form" method="post" name="form">
                 <div class="row">
                     <div class="col-xs-3">
+                        <label>Langue</label>
                         <select class="form-control" name="languages">
                             <option>Anglais</option>
                             <option>Allemand</option>
@@ -56,6 +57,7 @@
 
                     </div>
                     <div class="col-xs-3">
+                        <label>Moyen de paiement</label>
                         <select class="form-control" name="payments">
                             <option>Visa</option>
                             <option>Master Card</option>
@@ -77,6 +79,7 @@
                         </select>
                     </div>
                     <div class="col-xs-3">
+                        <label>Service</label>
                         <select class="form-control" name="amenities">
                             <option>Accès Internet</option>
                             <option>Ascenseur</option>
@@ -149,9 +152,9 @@
                 var ser = document.form.amenities.value;
                 $.post("http://localhost:8080/projetXML/Search", {pay: pay, lang: lan, serv: ser})
                         .done(function(data) {
-                            $("#result").empty();
-                            $("#result").append(data);
-                        });
+                    $("#result").empty();
+                    $("#result").append(data);
+                });
             });
         </script>
 

@@ -41,7 +41,6 @@
                             <td>Téléphone</td>
                             <td>Adresse</td>
                             <td>Note</td>
-                            <td>Image</td>
                         </tr>
                     </thead>
                     <tbody>
@@ -60,11 +59,6 @@
                                 </td>
                                 <td>
                                     <xsl:value-of select="standings_levels/standings_level"/>
-                                </td>
-                                <td>
-                                    <img>
-                                        <xsl:value-of select="images/image"/>
-                                    </img>
                                 </td>
                             </tr>
                         </xsl:for-each>

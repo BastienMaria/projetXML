@@ -18,25 +18,27 @@
             </fo:layout-master-set>
             <fo:page-sequence master-reference="portrait">
                 <fo:flow flow-name="xsl-region-body">
-                    <fo:table table-layout="fixed" width="100%">
-                        <fo:table-column column-width="proportional-column-width(1)"/>
-                        <fo:table-body>
-                            <fo:table-row height="297mm">
-                                <fo:table-cell display-align="center">
-                                    <fo:block>
-                                        <fo:instream-foreign-object>
-                                            <xsl:call-template name="pieChart">
-                                                <xsl:with-param name="xData" select="/data/x"/>
-                                                <xsl:with-param name="yData" select="/data/y"/>
-                                                <xsl:with-param name="width" select="'30cm'"/>
-                                                <xsl:with-param name="height" select="'25cm'"/>
-                                            </xsl:call-template>
-                                        </fo:instream-foreign-object>
-                                    </fo:block>
-                                </fo:table-cell>
-                            </fo:table-row>
-                        </fo:table-body>
-                    </fo:table>
+                    <fo:block font-style="normal"
+                              font-weight="bold"
+                              text-align="center"
+                              color="#880000"
+                              font-size="25pt"
+                              background-color="#C0C0C0">
+                        Répartition des hotels par note
+
+                    </fo:block>
+                    <fo:block padding-after="65pt"></fo:block>
+                    <fo:block>
+                        <fo:instream-foreign-object>
+                            <xsl:call-template name="pieChart">
+                                <xsl:with-param name="xData" select="/data/x"/>
+                                <xsl:with-param name="yData" select="/data/y"/>
+                                <xsl:with-param name="width" select="'30cm'"/>
+                                <xsl:with-param name="height" select="'20cm'"/>
+                            </xsl:call-template>
+                        </fo:instream-foreign-object>
+                    </fo:block>
+
                 </fo:flow>
             </fo:page-sequence>
         </fo:root>

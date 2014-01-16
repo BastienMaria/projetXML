@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="UTF-8"?>
+<?xml version='1.0' encoding='UTF-8' ?>
 <!--
 Original Author: Frankline Francis
 
@@ -17,8 +17,7 @@ Redistribution and use, with or without modification, are permitted provided tha
       this software without specific prior written permission.
 -->
 <xsl:stylesheet version="1.0"
-	xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
-	<xsl:import href="linechart.xsl" />
-	<xsl:import href="barchart.xsl" />
-	<xsl:import href="piechart.xsl" />
+                xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
+    <xsl:import href="barchart.xsl" />
+    <xsl:import href="piechart.xsl" />
 </xsl:stylesheet>

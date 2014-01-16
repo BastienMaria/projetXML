@@ -3,7 +3,6 @@
     Created on : 16 déc. 2013, 17:02:53
     Author     : Bastien
 --%>
-
 <%@page contentType="text/html" pageEncoding="windows-1252"%>
 <!DOCTYPE html>
 <html>
@@ -102,12 +101,12 @@
                         var infos = getUpInfos(Id);
                         var varBody = infos[0];
                         var varTitle = infos[1];
-                        
+
                         $('#infosTitle').empty();
                         $('#infosTitle').append(varTitle);
                         $('#infosBody').empty();
                         $('#infosBody').append(varBody);
-                        
+
                         $('#imageModal').modal('show');
                     });
                 }
@@ -130,57 +129,57 @@
                     xmlhttpi.send();
                     xmlInfos = xmlhttpi.responseXML;
                     var tel, email, site, img, lvl, name, nametitle, lvlnb, siteUrl;
-                    
+
                     lvl = xmlInfos.getElementsByTagName("standings_level")[0].childNodes[0].nodeValue;
                     switch (lvl.charAt(0))
-                        {
-                            case "1":
-                                lvlnb = " *";
-                                break;
-                            case "2":
-                                lvlnb = " **";
-                                break;
-                            case "3":
-                                lvlnb = " ***";
-                                break;
-                            case "4":
-                                lvlnb = " ****";
-                                break;
-                            case "5":
-                                lvlnb = " *****";
-                                break;
-                            default :
-                                lvlnb = "";
-                        }
+                    {
+                        case "1":
+                            lvlnb = " *";
+                            break;
+                        case "2":
+                            lvlnb = " **";
+                            break;
+                        case "3":
+                            lvlnb = " ***";
+                            break;
+                        case "4":
+                            lvlnb = " ****";
+                            break;
+                        case "5":
+                            lvlnb = " *****";
+                            break;
+                        default :
+                            lvlnb = "";
+                    }
                     name = xmlInfos.getElementsByTagName("name_fr")[0].childNodes[0].nodeValue;
                     nametitle = xmlInfos.getElementsByTagName("name_fr")[0].childNodes[0].nodeValue + lvlnb;
-                    if(xmlInfos.getElementsByTagName("email")[0].firstChild === null){
+                    if (xmlInfos.getElementsByTagName("email")[0].firstChild === null) {
                         email = "non renseigné";
                     } else {
                         email = xmlInfos.getElementsByTagName("email")[0].childNodes[0].nodeValue;
                     }
-                    if(xmlInfos.getElementsByTagName("phone")[0].firstChild === null){
+                    if (xmlInfos.getElementsByTagName("phone")[0].firstChild === null) {
                         tel = "non renseigné";
                     } else {
                         tel = xmlInfos.getElementsByTagName("phone")[0].childNodes[0].nodeValue;
                     }
-                    if(xmlInfos.getElementsByTagName("website")[0].firstChild === null){
+                    if (xmlInfos.getElementsByTagName("website")[0].firstChild === null) {
                         site = "non renseigné (= recherche google ici !)";
                         siteUrl = "https://www.google.com/#q=" + name + " Nice";
                     } else {
                         site = xmlInfos.getElementsByTagName("website")[0].childNodes[0].nodeValue;
                         siteUrl = site;
                     }
-                    if(xmlInfos.getElementsByTagName("image")[0].firstChild === null){
+                    if (xmlInfos.getElementsByTagName("image")[0].firstChild === null) {
                         img = "Photo non disponible";
                     } else {
                         img = xmlInfos.getElementsByTagName("image")[0].childNodes[0].nodeValue;
                     }
-                    
+
                     var retHtmlTitle = nametitle;
                     var retHtmlBody = "<p>Téléphone : " + tel + "</p><p>Email : " + email + "</p><p>Site : <a href=\"" + siteUrl + "\">" + site + "</a></p>\n\
-                                        <p><img src=\"" + img +"\" width=\"540\" height=\"auto\"  />";
-                    
+                                        <p><img src=\"" + img + "\" width=\"540\" height=\"auto\"  />";
+
                     return[retHtmlBody, retHtmlTitle];
                 }
             </script>

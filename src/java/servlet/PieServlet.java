@@ -18,7 +18,7 @@ public class PieServlet extends HttpServlet {
     public final static String /**
              * The path to the stylesheet.
              */
-            XSLT_PATH = "SvgCharts/examples/pieChartExample2.xsl";
+            XSLT_PATH = "SvgCharts/examples/pie.xsl";
 
     /**
      * Initializes the servlet.
